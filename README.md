@@ -15,7 +15,7 @@ You need to download all the nessesary packages dependencies with composer:
 composer install
 ```
 
-Download and Install the Node(https://nodejs.org/en/) to Include the front end dependencies
+Download and Install the [Node](https://nodejs.org/en/) to Include the front end dependencies
 
 You need to download all the nessesary packages dependencies with npm:
 
@@ -41,7 +41,7 @@ Run the command to serve the application from the server
 php artisan serve --port=1212
 ```
 
-Visit the browser(127.0.0.1:1212) to view the Application
+Visit the [browser](127.0.0.1:1212) to view the Application
 
 
 
