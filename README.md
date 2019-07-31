@@ -22,7 +22,7 @@ You need to download all the nessesary packages dependencies with npm:
 ```bash
 npm install
 ```
-Copy the rename the .env.example file to .env
+Copy and rename the .env.example file to .env
 
 Run the command to set the key in the laravel
 
@@ -30,7 +30,7 @@ Run the command to set the key in the laravel
 php artisan key:generate
 ```
 
-Run the command to compile the front end assets in one
+Run the command to compile the front end assets
 
 ```bash
 npm run watch
