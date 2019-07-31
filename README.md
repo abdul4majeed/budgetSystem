@@ -41,7 +41,7 @@ Run the command to serve the application from the server
 php artisan serve --port=1212
 ```
 
-Visit the [browser](https://127.0.0.1:1212) to view the Application
+Visit the [browser](http://127.0.0.1:1212) to view the Application
 
 
 
