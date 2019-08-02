@@ -81,7 +81,7 @@
 
 <script>
 let moment  = require('moment');
-import { required, minLength, between, numeric } from 'vuelidate/lib/validators'
+import { required, minLength, between, numeric } from 'vuelidate/lib/validators';
 let uti_fun =  require('../utility_functions.js');
 
 export default {
@@ -116,24 +116,31 @@ export default {
 
     methods: {
         onSubmit(e){
+            let v = this.$v;
+            let checkedBoxes = this.checkedBoxes;
             e.preventDefault();
-        if(this.$v.budget.$invalid)   //Check if anything is invalid here i.e. form validation is invalid i.e. Error Found
+        if(v.budget.$invalid)   //Check if anything is invalid here i.e. form validation is invalid i.e. Error Found
         {
-            uti_fun.validate_and_show_the_error_on_submit_button_pressed(this.$v,this.checkedBoxes);
+            uti_fun.validate_and_show_the_error_on_submit_button_pressed(v,checkedBoxes);
         }
         else
         {
-             axios.post('/formSubmit', {
-                    name: this.name,
-                    description: this.description
+             axios.post('/api/budget', {
+                       formData: this.budget,
+                       date : (this.year + '/' + this.month + '/' + this.clicked_date).trim(),
                 })
                 .then(function (response) {
-                    console.log('response');
+                    if(response.data.res == "ok")
+                    {
+                        uti_fun.reset_form_and_fields_and_empty_the_vueliadtor(v,checkedBoxes);
+                        toastr.success(response.data.msg);
+
+
+                    }
                 })
                 .catch(function (error) {
-                    console.log('error');
+                    console.log(error.response);
                 });
-            console.log('All Sahi Send Ajax Request')
         }
             
         },
@@ -146,6 +153,7 @@ export default {
                     this.$refs['addNewRecord'].show();
         },
         showModel(e){
+
                 this.$refs['showBudgetList'].show();
                 this.clicked_date = e.target.children[0].children[0].innerHTML;
         },
