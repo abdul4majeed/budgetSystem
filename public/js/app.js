@@ -1984,6 +1984,14 @@ var uti_fun = __webpack_require__(/*! ../utility_functions.js */ "./resources/js
         {
           uti_fun.validate_and_show_the_error_on_submit_button_pressed(this.$v, this.checkedBoxes);
         } else {
+        axios.post('/formSubmit', {
+          name: this.name,
+          description: this.description
+        }).then(function (response) {
+          console.log('response');
+        })["catch"](function (error) {
+          console.log('error');
+        });
         console.log('All Sahi Send Ajax Request');
       }
     },

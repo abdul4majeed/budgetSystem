@@ -10,7 +10,6 @@ window.Vue = require('vue');
 import BootstrapVue from 'bootstrap-vue';
 import vuevalidator from 'vuelidate';
 import TreeView from "vue-json-tree-view"
-
 window.Vue.use(BootstrapVue)
 window.Vue.use(vuevalidator)
 window.Vue.use(TreeView)

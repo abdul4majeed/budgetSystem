@@ -108,6 +108,7 @@ export default {
         }
     },
     mounted() {
+        
         let datey = this.year + "-" + (this.month);
         this.days = (new moment(datey, "YYYY-MM").daysInMonth());
         this.complete_array =  uti_fun.generate_days_array(moment,this.days);
@@ -122,6 +123,16 @@ export default {
         }
         else
         {
+             axios.post('/formSubmit', {
+                    name: this.name,
+                    description: this.description
+                })
+                .then(function (response) {
+                    console.log('response');
+                })
+                .catch(function (error) {
+                    console.log('error');
+                });
             console.log('All Sahi Send Ajax Request')
         }
             
