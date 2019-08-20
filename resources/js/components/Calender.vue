@@ -45,6 +45,14 @@
                         Value must be Numeric
                     </div> 
 
+                    <!-- Record Type Field -->
+                    <b-form-select v-model="budget.selected" :options="options"
+                    @change="IndentifyTheSelectElementOption" :error-messages="selectErrors"
+                     v-bind:class = "{ red_border : $v.budget.selected.$invalid && checkedBoxes.isSelectShown}"></b-form-select>
+                    <div v-if="!$v.budget.selected.required && checkedBoxes.isSelectShown">
+                        Record Type is required.
+                    </div>
+
                     <b-button type="submit" variant="primary">Submit</b-button>
                     <b-button type="reset" variant="danger">Reset</b-button>
                    
@@ -91,6 +99,7 @@ export default {
                 isTextShown : false,
                 isDescriptionShown : false,
                 isPriceShown : false,
+                isSelectShown : true,
                 },
             name:'',
             age: '',
@@ -98,6 +107,7 @@ export default {
                 title: '',
                 description: '',
                 price : '',
+                selected: '',
             },
             'days': 0,
             'month': 7,
@@ -105,6 +115,12 @@ export default {
             'complete_array':[],
             'day_name' : [{'id':1,'name':'Mon'},{'id':2,'name':'Tue'},{'id':3,'name':'Wed'},{'id':4,'name':'Thu'},{'id':5,'name':'Fri'},{'id':6,'name':'Sat'},{'id':7,'name':'Sun'}],
             'clicked_date' : 0,
+
+            options: [
+                { value: '', text: 'Please select an Record Type' },
+                { value: 'dep', text: 'Deposit' },
+                { value: 'cre', text: 'Credit' },
+            ]
         }
     },
     mounted() {
@@ -115,6 +131,7 @@ export default {
     },
 
     methods: {
+
         onSubmit(e){
             let v = this.$v;
             let checkedBoxes = this.checkedBoxes;
@@ -157,6 +174,17 @@ export default {
                 this.$refs['showBudgetList'].show();
                 this.clicked_date = e.target.children[0].children[0].innerHTML;
         },
+
+        IndentifyTheSelectElementOption(){
+            if(this.budget.selected == "")
+            {
+                this.checkedBoxes.isSelectShown = true;
+            }
+            else
+            {
+                this.checkedBoxes.isSelectShown = false;
+            }
+        }
     },
 
     validations : {
@@ -172,9 +200,22 @@ export default {
             price:{
                 required,
                 numeric,
+            },
+            selected:{
+                required,
             }
         },
        
+    },
+
+    computed:{
+        selectErrors () {
+      const errors = []
+      console.log(this.$v.budget.selected.$dirty);
+      if (!this.$v.budget.selected.$dirty) return errors
+      !this.$v.budget.selected.required && errors.push('Item is required')
+      return errors
+    },
     }
 }
 </script>

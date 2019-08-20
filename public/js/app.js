@@ -1921,6 +1921,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 
 
@@ -1933,14 +1941,16 @@ var uti_fun = __webpack_require__(/*! ../utility_functions.js */ "./resources/js
       checkedBoxes: {
         isTextShown: false,
         isDescriptionShown: false,
-        isPriceShown: false
+        isPriceShown: false,
+        isSelectShown: true
       },
       name: '',
       age: '',
       budget: {
         title: '',
         description: '',
-        price: ''
+        price: '',
+        selected: ''
       },
       'days': 0,
       'month': 7,
@@ -1968,7 +1978,17 @@ var uti_fun = __webpack_require__(/*! ../utility_functions.js */ "./resources/js
         'id': 7,
         'name': 'Sun'
       }],
-      'clicked_date': 0
+      'clicked_date': 0,
+      options: [{
+        value: '',
+        text: 'Please select an Record Type'
+      }, {
+        value: 'dep',
+        text: 'Deposit'
+      }, {
+        value: 'cre',
+        text: 'Credit'
+      }]
     };
   },
   mounted: function mounted() {
@@ -2009,6 +2029,13 @@ var uti_fun = __webpack_require__(/*! ../utility_functions.js */ "./resources/js
     showModel: function showModel(e) {
       this.$refs['showBudgetList'].show();
       this.clicked_date = e.target.children[0].children[0].innerHTML;
+    },
+    IndentifyTheSelectElementOption: function IndentifyTheSelectElementOption() {
+      if (this.budget.selected == "") {
+        this.checkedBoxes.isSelectShown = true;
+      } else {
+        this.checkedBoxes.isSelectShown = false;
+      }
     }
   },
   validations: {
@@ -2024,7 +2051,19 @@ var uti_fun = __webpack_require__(/*! ../utility_functions.js */ "./resources/js
       price: {
         required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
         numeric: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["numeric"]
+      },
+      selected: {
+        required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
       }
+    }
+  },
+  computed: {
+    selectErrors: function selectErrors() {
+      var errors = [];
+      console.log(this.$v.budget.selected.$dirty);
+      if (!this.$v.budget.selected.$dirty) return errors;
+      !this.$v.budget.selected.required && errors.push('Item is required');
+      return errors;
     }
   }
 });
@@ -83979,6 +84018,35 @@ var render = function() {
                   ? _c("div", [
                       _vm._v(
                         "\n                    Value must be Numeric\n                "
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("b-form-select", {
+                  class: {
+                    red_border:
+                      _vm.$v.budget.selected.$invalid &&
+                      _vm.checkedBoxes.isSelectShown
+                  },
+                  attrs: {
+                    options: _vm.options,
+                    "error-messages": _vm.selectErrors
+                  },
+                  on: { change: _vm.IndentifyTheSelectElementOption },
+                  model: {
+                    value: _vm.budget.selected,
+                    callback: function($$v) {
+                      _vm.$set(_vm.budget, "selected", $$v)
+                    },
+                    expression: "budget.selected"
+                  }
+                }),
+                _vm._v(" "),
+                !_vm.$v.budget.selected.required &&
+                _vm.checkedBoxes.isSelectShown
+                  ? _c("div", [
+                      _vm._v(
+                        "\n                    Record Type is required.\n                "
                       )
                     ])
                   : _vm._e(),
